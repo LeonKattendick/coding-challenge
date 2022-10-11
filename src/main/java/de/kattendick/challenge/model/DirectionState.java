@@ -11,4 +11,7 @@ public enum DirectionState {
 
     private final int offset;
 
+    public static DirectionState getNeededDirection(int currentFloor, int destinationFloor) {
+        return destinationFloor > currentFloor ? DirectionState.UP : DirectionState.DOWN;
+    }
 }
