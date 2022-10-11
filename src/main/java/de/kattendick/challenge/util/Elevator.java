@@ -22,9 +22,13 @@ public class Elevator implements Runnable {
         if (this.destinationFloors.contains(destinationFloor)) return;
 
         this.destinationFloors.add(destinationFloor);
-        if (this.directionState == DirectionState.STILL) this.directionState = destinationFloor > this.currentFloor ? DirectionState.UP : DirectionState.DOWN;
+        if (this.directionState == DirectionState.STILL) changeDirection(destinationFloor);
 
         System.out.printf("[Aufzug %02d] %02d -> %02d\n", this.id, this.currentFloor, destinationFloor);
+    }
+
+    private void changeDirection(int nextFloor) {
+        this.directionState = nextFloor > this.currentFloor ? DirectionState.UP : DirectionState.DOWN;
     }
 
     @Override
@@ -43,11 +47,9 @@ public class Elevator implements Runnable {
             if (!reachedFloor.isPresent()) continue;
 
             this.destinationFloors.remove(reachedFloor.get());
+            this.destinationFloors.stream().findFirst().ifPresent(this::changeDirection);
+
             System.out.printf("[Aufzug %02d] - %02d -\n", this.id, this.currentFloor);
-
-            Optional<Integer> nextFloor = this.destinationFloors.stream().findFirst();
-            if (nextFloor.isPresent()) this.directionState = nextFloor.get() > this.currentFloor ? DirectionState.UP : DirectionState.DOWN;
-
         }
         this.directionState = DirectionState.STILL;
     }
