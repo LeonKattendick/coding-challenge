@@ -18,9 +18,9 @@ public class ElevatorSystem {
 
     private final ExecutorService service;
 
-    private List<Elevator> elevators = new ArrayList<>();
+    private final List<Elevator> elevators;
 
-    private List<Future<?>> elevatorFutures = new LinkedList<>();
+    private final List<Future<?>> elevatorFutures = new LinkedList<>();
 
     public ElevatorSystem(List<Elevator> elevators) {
         this.elevators = elevators;
@@ -43,17 +43,16 @@ public class ElevatorSystem {
 
     }
 
-    public Optional<Elevator> findNearestElevator(int currentFloor, int destinationFloor) {
+    public synchronized Optional<Elevator> findNearestElevator(int currentFloor, int destinationFloor) {
         DirectionState neededDirection = DirectionState.getNeededDirection(currentFloor, destinationFloor);
 
-        boolean anyInNeededDirection = elevators
+        boolean anyInNeededDirection = this.elevators
                 .stream()
                 .anyMatch(v -> v.isGoingInRightDirection(neededDirection));
 
         int distance = 999;
         Elevator nearest = null;
-        for (Elevator elevator : elevators) {
-            // we first check if any elevator is going in the needed direction -> if so we can ignore all unwanted
+        for (Elevator elevator : this.elevators) {
             if (anyInNeededDirection && !elevator.isGoingInRightDirection(neededDirection)) continue;
 
             int d = Math.abs(currentFloor - elevator.getCurrentFloor());
