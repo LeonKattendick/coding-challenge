@@ -27,6 +27,7 @@ public class Elevator implements Runnable {
      * @param destinationFloor floor that the elevator needs to pass
      */
     public void moveToFloor(int destinationFloor) {
+        if (getLastFloor() == destinationFloor) return;
 
         System.out.printf("[Aufzug %02d] %02d -> %02d\n", this.id, getLastFloor(), destinationFloor);
 

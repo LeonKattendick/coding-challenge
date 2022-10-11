@@ -108,4 +108,24 @@ public class ElevatorTests {
                 outputStreamCaptor.toString()
         );
     }
+
+    @SneakyThrows
+    @Test
+    public void whenElevatorAt35AndPressDouble0_ThenMoveOnlyOnce() {
+
+        Elevator elevator = new Elevator(1, 35);
+
+        elevator.moveToFloor(0);
+        elevator.moveToFloor(0);
+
+        Future<?> future = service.submit(elevator);
+        elevator.shutdown();
+        future.get();
+
+        assertEquals(
+                "[Aufzug 01] 35 -> 00\n" +
+                        "[Aufzug 01] - 00 -\n",
+                outputStreamCaptor.toString()
+        );
+    }
 }
