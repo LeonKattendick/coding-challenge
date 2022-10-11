@@ -1,6 +1,6 @@
 package de.kattendick.challenge;
 
-import de.kattendick.challenge.util.Elevator;
+import de.kattendick.challenge.model.Elevator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

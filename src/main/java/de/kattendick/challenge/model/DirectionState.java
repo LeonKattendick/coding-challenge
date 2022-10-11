@@ -1,4 +1,4 @@
-package de.kattendick.challenge.util;
+package de.kattendick.challenge.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

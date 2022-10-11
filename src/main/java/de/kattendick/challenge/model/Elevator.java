@@ -1,9 +1,10 @@
-package de.kattendick.challenge.util;
+package de.kattendick.challenge.model;
 
 import lombok.Data;
 import lombok.NonNull;
 
 import java.util.*;
+import java.util.concurrent.PriorityBlockingQueue;
 
 @Data
 public class Elevator implements Runnable {
@@ -14,7 +15,7 @@ public class Elevator implements Runnable {
     @NonNull
     private int currentFloor;
 
-    private Queue<Integer> destinationFloors = new PriorityQueue<>();
+    private Queue<Integer> destinationFloors = new PriorityBlockingQueue<>();
 
     private DirectionState directionState = DirectionState.STILL;
 
