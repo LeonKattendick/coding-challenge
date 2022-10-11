@@ -4,7 +4,6 @@ import de.kattendick.challenge.model.DirectionState;
 import de.kattendick.challenge.model.Elevator;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +30,12 @@ public class ElevatorSystem {
         }
     }
 
+    /**
+     * If a person wants to use the elevator, this method is invoked.
+     *
+     * @param currentFloor     the floor the person is currently at
+     * @param destinationFloor the floor the person wants to travel to
+     */
     public synchronized void buttonPressedAtFloor(int currentFloor, int destinationFloor) {
 
         Optional<Elevator> optionalElevator = findNearestElevator(currentFloor, destinationFloor);
@@ -43,6 +48,14 @@ public class ElevatorSystem {
 
     }
 
+    /**
+     * Returns the nearest elevator based on distance. If there is at least one waiting elevator. Only waiting are used.
+     * The calculation of the nearest elevator is based on the last floor of the current queue.
+     *
+     * @param currentFloor     the floor the person starts from
+     * @param destinationFloor the floor the person wants to go to
+     * @return the nearest elevator
+     */
     public synchronized Optional<Elevator> findNearestElevator(int currentFloor, int destinationFloor) {
         DirectionState neededDirection = DirectionState.getNeededDirection(currentFloor, destinationFloor);
 
@@ -64,6 +77,12 @@ public class ElevatorSystem {
         return Optional.ofNullable(nearest);
     }
 
+    /**
+     * This shutdown disables all elevators as soon as they have reached the end of their queue.
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public void shutdown() throws ExecutionException, InterruptedException {
         for (Elevator elevator : this.elevators) {
             elevator.shutdown();

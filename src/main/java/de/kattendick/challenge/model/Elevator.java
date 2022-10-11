@@ -21,6 +21,11 @@ public class Elevator implements Runnable {
 
     private boolean shutdown = false;
 
+    /**
+     * The passed floor is added to the queue of floors the elevator is traveling to.
+     *
+     * @param destinationFloor floor that the elevator needs to pass
+     */
     public void moveToFloor(int destinationFloor) {
         if (this.destinationFloors.contains(destinationFloor)) return;
 
@@ -30,6 +35,12 @@ public class Elevator implements Runnable {
         if (this.directionState == DirectionState.STILL) changeDirection(destinationFloor);
     }
 
+    /**
+     * Checks if the elevator is going in the desired direction or if it is waiting.
+     *
+     * @param neededDirection direction that wants to be checked
+     * @return if the elevator is moving correctly or is waiting
+     */
     public boolean isGoingInRightDirection(DirectionState neededDirection) {
         return this.directionState == DirectionState.STILL || this.directionState == neededDirection;
     }
@@ -53,7 +64,7 @@ public class Elevator implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -64,7 +75,7 @@ public class Elevator implements Runnable {
 
             while (!this.destinationFloors.isEmpty()) {
                 try {
-                    Thread.sleep(30);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

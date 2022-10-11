@@ -65,10 +65,10 @@ public class ElevatorSystemTests {
         ElevatorSystem elevatorSystem = new ElevatorSystem(Arrays.asList(elevator1, elevator2));
 
         elevatorSystem.buttonPressedAtFloor(0, 55);
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         elevatorSystem.buttonPressedAtFloor(20, 0);
         elevatorSystem.buttonPressedAtFloor(35, 0);
-        Thread.sleep(100);
+        Thread.sleep(5000);
         elevatorSystem.buttonPressedAtFloor(0, 33);
         elevatorSystem.shutdown();
 
