@@ -63,7 +63,7 @@ public class ElevatorSystem {
                 .stream()
                 .anyMatch(v -> v.isGoingInRightDirection(neededDirection));
 
-        int distance = 999;
+        int distance = Integer.MAX_VALUE;
         Elevator nearest = null;
         for (Elevator elevator : this.elevators) {
             if (anyInNeededDirection && !elevator.isGoingInRightDirection(neededDirection)) continue;

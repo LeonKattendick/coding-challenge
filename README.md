@@ -6,9 +6,10 @@ This Code implements the basic functionality of an elevator system.
 - JUnit
 
 # Features
-- A complex sequence of of moves can be entered, which an elevator will follow.
+- A complex sequence of moves can be entered, which an elevator will follow.
 - Each elevator can run on a single thread.
-- An infinite amount of elevators can be setup in pararallel.
+- The elevator will print out the current state of all inputs.
+- An infinite amount of elevators can be setup in parallel.
 
 # Restrictions
 - An elevator will move strictly on the given route and doesn't stop in between.
