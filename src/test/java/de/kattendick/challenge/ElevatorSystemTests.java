@@ -54,25 +54,4 @@ public class ElevatorSystemTests {
         assertEquals(55, elevatorSystem.getElevators().get(0).getCurrentFloor());
         assertEquals(0, elevatorSystem.getElevators().get(1).getCurrentFloor());
     }
-
-    @SneakyThrows
-    @Test
-    public void test() {
-
-        Elevator elevator1 = new Elevator(1, 0);
-        Elevator elevator2 = new Elevator(2, 0);
-
-        ElevatorSystem elevatorSystem = new ElevatorSystem(Arrays.asList(elevator1, elevator2));
-
-        elevatorSystem.buttonPressedAtFloor(0, 55);
-        Thread.sleep(3000);
-        elevatorSystem.buttonPressedAtFloor(20, 0);
-        elevatorSystem.buttonPressedAtFloor(35, 0);
-        Thread.sleep(5000);
-        elevatorSystem.buttonPressedAtFloor(0, 33);
-        elevatorSystem.shutdown();
-
-        assertEquals(55, elevatorSystem.getElevators().get(0).getCurrentFloor());
-        assertEquals(0, elevatorSystem.getElevators().get(1).getCurrentFloor());
-    }
 }

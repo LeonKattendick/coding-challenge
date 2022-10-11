@@ -27,7 +27,6 @@ public class Elevator implements Runnable {
      * @param destinationFloor floor that the elevator needs to pass
      */
     public void moveToFloor(int destinationFloor) {
-        if (this.destinationFloors.contains(destinationFloor)) return;
 
         System.out.printf("[Aufzug %02d] %02d -> %02d\n", this.id, getLastFloor(), destinationFloor);
 
@@ -45,6 +44,11 @@ public class Elevator implements Runnable {
         return this.directionState == DirectionState.STILL || this.directionState == neededDirection;
     }
 
+    /**
+     * Returns the last floor the elevator will halt after the current queue. If the elevator is waiting the current floor is returned.
+     *
+     * @return the last floor
+     */
     public int getLastFloor() {
         Integer lastFloor = this.destinationFloors.peekLast();
         if (lastFloor == null) lastFloor = this.currentFloor;
@@ -64,7 +68,7 @@ public class Elevator implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(10); // every 10ms the elevator checks for new tasks
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -75,7 +79,7 @@ public class Elevator implements Runnable {
 
             while (!this.destinationFloors.isEmpty()) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(100); // it takes 100ms for the elevator to pass one floor
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
