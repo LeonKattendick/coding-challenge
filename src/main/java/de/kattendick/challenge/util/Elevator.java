@@ -3,9 +3,7 @@ package de.kattendick.challenge.util;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Data
 public class Elevator implements Runnable {
@@ -16,7 +14,7 @@ public class Elevator implements Runnable {
     @NonNull
     private int currentFloor;
 
-    private Set<Integer> destinationFloors = new TreeSet<>();
+    private Queue<Integer> destinationFloors = new PriorityQueue<>();
 
     private DirectionState directionState = DirectionState.STILL;
 
@@ -24,7 +22,7 @@ public class Elevator implements Runnable {
         if (this.destinationFloors.contains(destinationFloor)) return;
 
         this.destinationFloors.add(destinationFloor);
-        this.directionState = destinationFloor > this.currentFloor ? DirectionState.UP : DirectionState.DOWN;
+        if (this.directionState == DirectionState.STILL) this.directionState = destinationFloor > this.currentFloor ? DirectionState.UP : DirectionState.DOWN;
 
         System.out.printf("[Aufzug %02d] %02d -> %02d\n", this.id, this.currentFloor, destinationFloor);
     }
@@ -35,7 +33,7 @@ public class Elevator implements Runnable {
 
         while (this.destinationFloors.size() != 0) {
             try {
-                Thread.sleep(100); // Takes 1/10s to move to different floor
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -46,6 +44,10 @@ public class Elevator implements Runnable {
 
             this.destinationFloors.remove(reachedFloor.get());
             System.out.printf("[Aufzug %02d] - %02d -\n", this.id, this.currentFloor);
+
+            Optional<Integer> nextFloor = this.destinationFloors.stream().findFirst();
+            if (nextFloor.isPresent()) this.directionState = nextFloor.get() > this.currentFloor ? DirectionState.UP : DirectionState.DOWN;
+
         }
         this.directionState = DirectionState.STILL;
     }
