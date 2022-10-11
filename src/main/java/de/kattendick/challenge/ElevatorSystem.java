@@ -5,6 +5,7 @@ import de.kattendick.challenge.model.Elevator;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -15,28 +16,19 @@ import java.util.concurrent.Future;
 @Getter
 public class ElevatorSystem {
 
-    private final ExecutorService service = Executors.newFixedThreadPool(10);
+    private final ExecutorService service;
 
     private List<Elevator> elevators = new ArrayList<>();
 
+    private List<Future<?>> elevatorFutures = new LinkedList<>();
+
     public ElevatorSystem(List<Elevator> elevators) {
         this.elevators = elevators;
-        for (Elevator elevator : elevators) {
-            service.execute(elevator);
-        }
-    }
+        this.service = Executors.newFixedThreadPool(elevators.size());
 
-    public ElevatorSystem(int amount) {
-        for (int i = 0; i < amount; i++) {
-            this.elevators.add(new Elevator(i + 1, 0));
-        }
         for (Elevator elevator : elevators) {
-            service.submit(elevator);
+            elevatorFutures.add(service.submit(elevator));
         }
-    }
-
-    public void buttonPressedForIBM() {
-        buttonPressedAtFloor(0, 35);
     }
 
     public void buttonPressedAtFloor(int currentFloor, int destinationFloor) {
@@ -73,9 +65,12 @@ public class ElevatorSystem {
         return Optional.ofNullable(nearest);
     }
 
-    public void shutdown() {
+    public void shutdown() throws ExecutionException, InterruptedException {
         for (Elevator elevator : elevators) {
             elevator.shutdown();
+        }
+        for (Future<?> elevatorFuture : elevatorFutures) {
+            elevatorFuture.get();
         }
     }
 }
