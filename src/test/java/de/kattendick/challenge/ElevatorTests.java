@@ -58,7 +58,7 @@ public class ElevatorTests {
 
         assertEquals(
                 "[Aufzug 01] 00 -> 20\n" +
-                        "[Aufzug 01] 00 -> 35\n" +
+                        "[Aufzug 01] 20 -> 35\n" +
                         "[Aufzug 01] - 20 -\n" +
                         "[Aufzug 01] - 35 -\n",
                 outputStreamCaptor.toString()
@@ -80,7 +80,7 @@ public class ElevatorTests {
 
         assertEquals(
                 "[Aufzug 01] 00 -> 35\n" +
-                        "[Aufzug 01] 00 -> 20\n" +
+                        "[Aufzug 01] 35 -> 20\n" +
                         "[Aufzug 01] - 35 -\n" +
                         "[Aufzug 01] - 20 -\n",
                 outputStreamCaptor.toString()
@@ -102,7 +102,7 @@ public class ElevatorTests {
 
         assertEquals(
                 "[Aufzug 01] 35 -> 00\n" +
-                        "[Aufzug 01] 35 -> 55\n" +
+                        "[Aufzug 01] 00 -> 55\n" +
                         "[Aufzug 01] - 00 -\n" +
                         "[Aufzug 01] - 55 -\n",
                 outputStreamCaptor.toString()

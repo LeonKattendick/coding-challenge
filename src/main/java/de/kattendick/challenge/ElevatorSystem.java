@@ -31,7 +31,7 @@ public class ElevatorSystem {
         }
     }
 
-    public void buttonPressedAtFloor(int currentFloor, int destinationFloor) {
+    public synchronized void buttonPressedAtFloor(int currentFloor, int destinationFloor) {
 
         Optional<Elevator> optionalElevator = findNearestElevator(currentFloor, destinationFloor);
         if (!optionalElevator.isPresent()) throw new RuntimeException("No elevator found. Should not happen!");
@@ -55,7 +55,7 @@ public class ElevatorSystem {
         for (Elevator elevator : this.elevators) {
             if (anyInNeededDirection && !elevator.isGoingInRightDirection(neededDirection)) continue;
 
-            int d = Math.abs(currentFloor - elevator.getCurrentFloor());
+            int d = Math.abs(currentFloor - elevator.getLastFloor());
             if (d >= distance) continue;
 
             distance = d;

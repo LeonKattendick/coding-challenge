@@ -24,14 +24,21 @@ public class Elevator implements Runnable {
     public void moveToFloor(int destinationFloor) {
         if (this.destinationFloors.contains(destinationFloor)) return;
 
+        System.out.printf("[Aufzug %02d] %02d -> %02d\n", this.id, getLastFloor(), destinationFloor);
+
         this.destinationFloors.add(destinationFloor);
         if (this.directionState == DirectionState.STILL) changeDirection(destinationFloor);
-
-        System.out.printf("[Aufzug %02d] %02d -> %02d\n", this.id, this.currentFloor, destinationFloor);
     }
 
     public boolean isGoingInRightDirection(DirectionState neededDirection) {
         return this.directionState == DirectionState.STILL || this.directionState == neededDirection;
+    }
+
+    public int getLastFloor() {
+        Integer lastFloor = this.destinationFloors.peekLast();
+        if (lastFloor == null) lastFloor = this.currentFloor;
+
+        return lastFloor;
     }
 
     public void shutdown() {
@@ -45,6 +52,11 @@ public class Elevator implements Runnable {
     @Override
     public void run() {
         while (true) {
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             if (this.directionState == DirectionState.STILL || this.destinationFloors.size() == 0) {
                 if (this.shutdown) break;
                 continue;
