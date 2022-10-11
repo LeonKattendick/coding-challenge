@@ -45,7 +45,10 @@ public class Elevator implements Runnable {
     @Override
     public void run() {
         while (true) {
-            if (this.directionState == DirectionState.STILL || this.destinationFloors.size() == 0) continue;
+            if (this.directionState == DirectionState.STILL || this.destinationFloors.size() == 0) {
+                if (this.shutdown) break;
+                continue;
+            }
 
             while (!this.destinationFloors.isEmpty()) {
                 try {
@@ -65,7 +68,6 @@ public class Elevator implements Runnable {
                 System.out.printf("[Aufzug %02d] - %02d -\n", this.id, this.currentFloor);
             }
             this.directionState = DirectionState.STILL;
-            if (this.shutdown) break;
         }
     }
 }

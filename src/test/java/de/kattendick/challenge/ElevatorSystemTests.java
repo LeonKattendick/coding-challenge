@@ -32,6 +32,7 @@ public class ElevatorSystemTests {
 
         ElevatorSystem elevatorSystem = new ElevatorSystem(Arrays.asList(elevator1, elevator2));
         elevatorSystem.buttonPressedAtFloor(0, 35);
+        elevatorSystem.shutdown();
 
         assertEquals(35, elevatorSystem.getElevators().get(0).getCurrentFloor());
     }

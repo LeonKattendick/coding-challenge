@@ -66,10 +66,10 @@ public class ElevatorSystem {
     }
 
     public void shutdown() throws ExecutionException, InterruptedException {
-        for (Elevator elevator : elevators) {
+        for (Elevator elevator : this.elevators) {
             elevator.shutdown();
         }
-        for (Future<?> elevatorFuture : elevatorFutures) {
+        for (Future<?> elevatorFuture : this.elevatorFutures) {
             elevatorFuture.get();
         }
     }
