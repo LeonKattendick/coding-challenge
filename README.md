@@ -1,5 +1,5 @@
 # coding-challenge
-This Code implements the basic functionality of an elevator system.
+This code implements the basic functionality of an elevator system.
 
 # Used dependencies
 - Lombok

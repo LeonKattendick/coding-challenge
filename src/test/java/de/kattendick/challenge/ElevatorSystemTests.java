@@ -20,7 +20,6 @@ public class ElevatorSystemTests {
         ElevatorSystem elevatorSystem = new ElevatorSystem(Arrays.asList(elevator1, elevator2));
 
         assertEquals(1, elevatorSystem.findNearestElevator(40, 0).get().getId());
-
     }
 
     @SneakyThrows
