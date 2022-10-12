@@ -19,7 +19,7 @@ public class ElevatorSystemTests {
 
         ElevatorSystem elevatorSystem = new ElevatorSystem(Arrays.asList(elevator1, elevator2));
 
-        assertEquals(1, elevatorSystem.findNearestElevator(40, 0).get().getId());
+        assertEquals(1, elevatorSystem.findNearestElevator(40).get().getId());
     }
 
     @SneakyThrows
@@ -50,7 +50,7 @@ public class ElevatorSystemTests {
         elevatorSystem.buttonPressedAtFloor(35, 0);
         elevatorSystem.shutdown();
 
-        assertEquals(55, elevatorSystem.getElevators().get(0).getCurrentFloor());
-        assertEquals(0, elevatorSystem.getElevators().get(1).getCurrentFloor());
+        assertEquals(0, elevatorSystem.getElevators().get(0).getCurrentFloor());
+        assertEquals(55, elevatorSystem.getElevators().get(1).getCurrentFloor());
     }
 }

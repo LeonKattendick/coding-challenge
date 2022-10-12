@@ -36,16 +36,6 @@ public class Elevator implements Runnable {
     }
 
     /**
-     * Checks if the elevator is going in the desired direction or if it is waiting.
-     *
-     * @param neededDirection direction that wants to be checked
-     * @return if the elevator is moving correctly or is waiting
-     */
-    public boolean isGoingInRightDirection(DirectionState neededDirection) {
-        return this.directionState == DirectionState.STILL || this.directionState == neededDirection;
-    }
-
-    /**
      * Returns the last floor the elevator will halt after the current queue. If the elevator is waiting the current floor is returned.
      *
      * @return the last floor

@@ -38,7 +38,7 @@ public class ElevatorSystem {
      */
     public synchronized void buttonPressedAtFloor(int currentFloor, int destinationFloor) {
 
-        Optional<Elevator> optionalElevator = findNearestElevator(currentFloor, destinationFloor);
+        Optional<Elevator> optionalElevator = findNearestElevator(currentFloor);
         if (!optionalElevator.isPresent()) throw new RuntimeException("No elevator found. Should not happen!");
 
         Elevator elevator = optionalElevator.get();
@@ -53,20 +53,17 @@ public class ElevatorSystem {
      * The calculation of the nearest elevator is based on the last floor of the current queue.
      *
      * @param currentFloor     the floor the person starts from
-     * @param destinationFloor the floor the person wants to go to
      * @return the nearest elevator
      */
-    public synchronized Optional<Elevator> findNearestElevator(int currentFloor, int destinationFloor) {
-        DirectionState neededDirection = DirectionState.getNeededDirection(currentFloor, destinationFloor);
-
-        boolean anyInNeededDirection = this.elevators
+    public synchronized Optional<Elevator> findNearestElevator(int currentFloor) {
+        boolean anyWaiting = this.elevators
                 .stream()
-                .anyMatch(v -> v.isGoingInRightDirection(neededDirection));
+                .anyMatch(v -> v.getDirectionState() == DirectionState.STILL);
 
         int distance = Integer.MAX_VALUE;
         Elevator nearest = null;
         for (Elevator elevator : this.elevators) {
-            if (anyInNeededDirection && !elevator.isGoingInRightDirection(neededDirection)) continue;
+            if (anyWaiting && elevator.getDirectionState() != DirectionState.STILL) continue;
 
             int d = Math.abs(currentFloor - elevator.getLastFloor());
             if (d >= distance) continue;
